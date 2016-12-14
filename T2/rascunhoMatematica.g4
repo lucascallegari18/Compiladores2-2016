@@ -42,7 +42,7 @@
 
 f(x) = x^2 + 2x + 1
 
-v1 = integre f(x) de + infinito ate -infinito
+v1 = integre f(x) de +infinito ate -infinito
 
 v2 = integre f(x) de a ate b
 
