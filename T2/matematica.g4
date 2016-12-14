@@ -1,182 +1,92 @@
-grammar TL;
+grammar Matematica;
 
-parse
- : block EOF
+Programa
+ : Bloco EOF
  ;
 
-block
- : (statement | functionDecl)* (Return expression ';')?
+Bloco
+ : (Declaracao)* (‘return’ Expressao ';')?
  ;
 
-statement
- : assignment ';'
- | functionCall ';'
- | ifStatement
- | forStatement
- | whileStatement
+Declaracao
+ : Atribuicao ';'
+ | Integral   ';'
+ | Funcao     ';'
  ;
 
-assignment
- : Identifier indexes? '=' expression
+Atribuicao
+ : Identificador  '=' Expressao
  ;
 
-functionCall
- : Identifier '(' exprList? ')' #identifierFunctionCall
- | Println '(' expression? ')'  #printlnFunctionCall
- | Print '(' expression ')'     #printFunctionCall
- | Assert '(' expression ')'    #assertFunctionCall
- | Size '(' expression ')'      #sizeFunctionCall
+Funcao
+ : Relacao Identificador '('Incognita')' '=' Expressao
  ;
 
-ifStatement
- : ifStat elseIfStat* elseStat? End
+Integral
+ : 'integre' Funcao 'd' Incognita ('de' Numero 'ate' Numero)?;
+ ; 
+
+Expressao
+ : '-' Expressao                           
+ | Expressao '^' Expressao                
+ | Expressao '*' Expressao                
+ | Expressao '/' Expressao                
+ | Expressao '+' Expressao                
+ | Expressao '-' Expressao                
+ | Numero                                   
  ;
 
-ifStat
- : If expression Do block
+Relacao
+ : '{' Dominio'|'Imagem'}'
  ;
 
-elseIfStat
- : Else If expression Do block
+Dominio
+ : 'N' | 'Z' | 'Q' | 'R' (Intervalo)?  
  ;
 
-elseStat
- : Else Do block
+Imagem
+ : 'N' | 'Z' | 'Q' | 'R' (Intervalo)?  
  ;
 
-functionDecl
- : Def Identifier '(' idList? ')' block End
+Intervalo
+ : '['Valor '..' Valor']'
  ;
 
-forStatement
- : For Identifier '=' expression To expression Do block End
+Valor
+ : Numero
+ | Constante 
  ;
 
-whileStatement
- : While expression Do block End
+Constante
+ : '+infinito'
+ | '-infinito'
+ | 'pi'
+ | 'e'   //euler
  ;
 
-idList
- : Identifier (',' Identifier)*
+Numero
+ : Int ('.' Digito*)?
  ;
 
-exprList
- : expression (',' expression)*
- ;
-
-expression
- : '-' expression                           #unaryMinusExpression
- | '!' expression                           #notExpression
- | expression '^' expression                #powerExpression
- | expression '*' expression                #multiplyExpression
- | expression '/' expression                #divideExpression
- | expression '%' expression                #modulusExpression
- | expression '+' expression                #addExpression
- | expression '-' expression                #subtractExpression
- | expression '>=' expression               #gtEqExpression
- | expression '<=' expression               #ltEqExpression
- | expression '>' expression                #gtExpression
- | expression '<' expression                #ltExpression
- | expression '==' expression               #eqExpression
- | expression '!=' expression               #notEqExpression
- | expression '&&' expression               #andExpression
- | expression '||' expression               #orExpression
- | expression '?' expression ':' expression #ternaryExpression
- | expression In expression                 #inExpression
- | Number                                   #numberExpression
- | Bool                                     #boolExpression
- | Null                                     #nullExpression
- | functionCall indexes?                    #functionCallExpression
- | list indexes?                            #listExpression
- | Identifier indexes?                      #identifierExpression
- | String indexes?                          #stringExpression
- | '(' expression ')' indexes?              #expressionExpression
- | Input '(' String? ')'                    #inputExpression
- ;
-
-list
- : '[' exprList? ']'
- ;
-
-indexes
- : ('[' expression ']')+
- ;
-
-Println  : 'println';
-Print    : 'print';
-Input    : 'input';
-Assert   : 'assert';
-Size     : 'size';
-Def      : 'def';
-If       : 'if';
-Else     : 'else';
-Return   : 'return';
-For      : 'for';
-While    : 'while';
-To       : 'to';
-Do       : 'do';
-End      : 'end';
-In       : 'in';
-Null     : 'null';
-
-Or       : '||';
-And      : '&&';
-Equals   : '==';
-NEquals  : '!=';
-GTEquals : '>=';
-LTEquals : '<=';
-Pow      : '^';
-Excl     : '!';
-GT       : '>';
-LT       : '<';
-Add      : '+';
-Subtract : '-';
-Multiply : '*';
-Divide   : '/';
-Modulus  : '%';
-OBrace   : '{';
-CBrace   : '}';
-OBracket : '[';
-CBracket : ']';
-OParen   : '(';
-CParen   : ')';
-SColon   : ';';
-Assign   : '=';
-Comma    : ',';
-QMark    : '?';
-Colon    : ':';
-
-Bool
- : 'true' 
- | 'false'
- ;
-
-Number
- : Int ('.' Digit*)?
- ;
-
-Identifier
+Identificador
  : [a-zA-Z_] [a-zA-Z_0-9]*
  ;
-
-String
- : ["] (~["\r\n] | '\\\\' | '\\"')* ["]
- | ['] (~['\r\n] | '\\\\' | '\\\'')* [']
+Incognita
+ :[a-zA-Z_]
  ;
 
-Comment
+Comentario
  : ('//' ~[\r\n]* | '/*' .*? '*/') -> skip
  ;
 
-Space
+Espaco
  : [ \t\r\n\u000C] -> skip
  ;
 
 fragment Int
- : [1-9] Digit*
+ : [1-9] Digito*
  | '0'
  ;
   
-fragment Digit 
+fragment Digito 
  : [0-9]
- ;
