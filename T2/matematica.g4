@@ -11,29 +11,36 @@ Bloco
 Declaracao
  : Atribuicao ';'
  | Integral   ';'
- | Funcao     ';'
+ | Funcao 
+ | 'print' '(' Expressao| String ')' ';'  
  ;
 
 Atribuicao
  : Identificador  '=' Expressao
  ;
 
-Funcao
- : Relacao Identificador '('Incognita')' '=' Expressao
- ;
-
 Integral
- : 'integre' Funcao 'd' Incognita ('de' Numero 'ate' Numero)?;
+ : 'integre' Expressao 'd' Incognita ('de' Numero 'ate' Numero)?;
  ; 
 
+integre((1 + (f’(x))^2)^(1/2)) de A a B dx;
+
+
 Expressao
- : '-' Expressao                           
+ : Funcao (Expressao)?
+ | '-' Expressao                           
  | Expressao '^' Expressao                
  | Expressao '*' Expressao                
  | Expressao '/' Expressao                
  | Expressao '+' Expressao                
  | Expressao '-' Expressao                
  | Numero                                   
+ ;
+
+Funcao
+ : Relacao Seno ';'
+ | Relacao Cosseno ';'
+ | Relacao Identificador '('Incognita')' '=' Expressao ';'
  ;
 
 Relacao
@@ -57,6 +64,14 @@ Valor
  | Constante 
  ;
 
+ Seno
+ : 'sen''('Incognita | Expressao')'
+ ;
+
+ Cosseno
+ : 'cos''('Incognita | Expressao')'
+ ;
+
 Constante
  : '+infinito'
  | '-infinito'
@@ -73,6 +88,10 @@ Identificador
  ;
 Incognita
  :[a-zA-Z_]
+ ;
+
+ String
+ : '"' ~('\r' | '\n' | '"')* '"'
  ;
 
 Comentario
