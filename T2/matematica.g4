@@ -12,7 +12,7 @@ Declaracao
  : Atribuicao ';'
  | Integral   ';'
  | Funcao 
- | 'print' '(' Expressao| String ')' ';'  
+ | 'print' '(' Expressao | String ')' ';'  
  ;
 
 Atribuicao
@@ -20,11 +20,8 @@ Atribuicao
  ;
 
 Integral
- : 'integre' Expressao 'd' Incognita ('de' Numero 'ate' Numero)?;
+ : 'integre' Expressao 'd' Incognita ('de' Numero 'a' Numero)?;
  ; 
-
-integre((1 + (f’(x))^2)^(1/2)) de A a B dx;
-
 
 Expressao
  : Funcao (Expressao)?
@@ -44,14 +41,14 @@ Funcao
  ;
 
 Relacao
- : '{' Dominio'|'Imagem'}'
+ : '{' Dominio'|'Contradominio'}'
  ;
 
 Dominio
  : 'N' | 'Z' | 'Q' | 'R' (Intervalo)?  
  ;
 
-Imagem
+Contradominio
  : 'N' | 'Z' | 'Q' | 'R' (Intervalo)?  
  ;
 
