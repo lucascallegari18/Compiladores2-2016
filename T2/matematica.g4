@@ -5,39 +5,48 @@ Programa
  ;
 
 Bloco
- : (Declaracao)* (‘return’ Expressao ';')?
+ : (Declaracao)* ('return' Expressao ';')?
  ;
 
 Declaracao
  : Atribuicao ';'
  | Integral   ';'
- | Funcao 
+ | Funcao     ';'
  | 'print' '(' Expressao | String ')' ';'  
  ;
 
 Atribuicao
- : Identificador  '=' Expressao
+ : Identificador  '=' Expressao // tou em duvida, tah bastante abrangente
  ;
 
 Integral
- : 'integre' Expressao 'd' Incognita ('de' Numero 'a' Numero)?;
+ : 'integre' Expressao 'd' Incognita (IntervaloInt)?
  ; 
 
+IntervaloInt
+ : 'de' (Valor | Identificador) 'a' (Valor | Identificador) 
+ ;
+
 Expressao
- : Funcao (Expressao)?
- | '-' Expressao                           
+ //: Funcao (Expressao)?
+ : '-' Expressao                           
  | Expressao '^' Expressao                
  | Expressao '*' Expressao                
  | Expressao '/' Expressao                
  | Expressao '+' Expressao                
  | Expressao '-' Expressao                
- | Numero                                   
+ | Numero
+ | Incognita
+ | IdentificadorF
+ | Identificador
+ | '(' Expressao ')'
  ;
 
+// Talvez fazer um IdentificadorFuncao para facilitar o semântico
 Funcao
  : Relacao Seno ';'
  | Relacao Cosseno ';'
- | Relacao Identificador '('Incognita')' '=' Expressao ';'
+ | Relacao IdentificadorF '=' Expressao
  ;
 
 Relacao
@@ -54,6 +63,10 @@ Contradominio
 
 Intervalo
  : '['Valor '..' Valor']'
+ ;
+
+IdentificadorF
+ : Identificador '('Incognita')'
  ;
 
 Valor
@@ -83,6 +96,7 @@ Numero
 Identificador
  : [a-zA-Z_] [a-zA-Z_0-9]*
  ;
+
 Incognita
  :[a-zA-Z_]
  ;

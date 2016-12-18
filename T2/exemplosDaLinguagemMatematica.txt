@@ -12,7 +12,7 @@ mat(x) = x;
 {R[-10..10]|R}
 f(x) = x^5/2;
 
-{I[10..+infinito]|I}
+{Z[10..+infinito]|Z}
 g(x) = x^2 -2*x + 3;
 
 {N|N}
@@ -28,11 +28,11 @@ aceleracao(v) = v^2 - (4*a*c);
 
 --- Integrais
 
-integre f(x);
-integre g(x) de 1 a 4;
-integre h(x) de 0 a pi;
-integre i(r) de 0 a +infinito;
-integre aceleracao(v) de -infinito a 0;
+integre f(x) dx;
+integre g(x) dx de 1 a 4;
+integre h(x) dx de 0 a pi;
+integre i(r) dr de 0 a +infinito dr;
+integre aceleracao(v) dv de -infinito a 0;
 
 --- Programas
 
@@ -77,7 +77,7 @@ mat(x) = x​;
 {R [-10..10]|R}
 f(x)=x^5/2;
 
-{I[10..+infinito]|I}
+{Z[10..+infinito]|Z}
 g(x) = x^2 -2*x +3;
 
 {N|N}
