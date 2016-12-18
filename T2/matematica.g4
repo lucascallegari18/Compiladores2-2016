@@ -10,13 +10,27 @@ Bloco
 
 Declaracao
  : Atribuicao ';'
- | Integral   ';'
  | Funcao     ';'
  | 'print' '(' Expressao | String ')' ';'  
  ;
 
 Atribuicao
- : Identificador  '=' Expressao // tou em duvida, tah bastante abrangente
+ : Identificador  '=' Expressao
+ ;
+
+Expressao
+ : '-' Expressao
+ | Integral
+ | Expressao '^' Expressao                
+ | Expressao '*' Expressao                
+ | Expressao '/' Expressao                
+ | Expressao '+' Expressao                
+ | Expressao '-' Expressao                
+ | Valor
+ | Incognita
+ | IdentificadorF
+ | Identificador
+ | '(' Expressao ')'
  ;
 
 Integral
@@ -27,26 +41,11 @@ IntervaloInt
  : 'de' (Valor | Identificador) 'a' (Valor | Identificador) 
  ;
 
-Expressao
- //: Funcao (Expressao)?
- : '-' Expressao                           
- | Expressao '^' Expressao                
- | Expressao '*' Expressao                
- | Expressao '/' Expressao                
- | Expressao '+' Expressao                
- | Expressao '-' Expressao                
- | Numero
- | Incognita
- | IdentificadorF
- | Identificador
- | '(' Expressao ')'
- ;
-
-// Talvez fazer um IdentificadorFuncao para facilitar o semântico
-Funcao
- : Relacao Seno ';'
- | Relacao Cosseno ';'
- | Relacao IdentificadorF '=' Expressao
+// a relacao e sempre necessaria ?
+Funcao 
+ : (Relacao)? Seno
+ | (Relacao)? Cosseno
+ | (Relacao)? IdentificadorF '=' Expressao
  ;
 
 Relacao
@@ -74,11 +73,11 @@ Valor
  | Constante 
  ;
 
- Seno
+Seno
  : 'sen''('Incognita | Expressao')'
  ;
 
- Cosseno
+Cosseno
  : 'cos''('Incognita | Expressao')'
  ;
 
