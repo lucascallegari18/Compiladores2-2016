@@ -59,6 +59,10 @@ identificadorF
  : Identificador '('Incognita')'
  ;
 
+valor
+ : Numero
+ | Constante
+ ;
 
 seno
  : 'sen''('Incognita | expressao')'
@@ -79,10 +83,6 @@ contradominio
 intervalo
  : '['valor '..' valor']'
  ;
-valor
- : Numero
- | Constante
- ;
 
 Constante
  : '+infinito'
@@ -95,12 +95,12 @@ Numero
  : Int ('.' Digito*)?
  ;
 
-Incognita
- :[a-zA-Z_]
- ;
-
 Identificador
  : [a-zA-Z_] [a-zA-Z_0-9]*
+ ;
+
+Incognita
+ :[a-zA-Z_]
  ;
 
  String

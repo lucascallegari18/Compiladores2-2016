@@ -28,11 +28,11 @@ aceleracao(v) = v^2 - (4*a*c);
 
 --- Integrais
 
-integre f(x) dx;
-integre g(x) dx de 1 a 4;
-integre h(x) dx de 0 a pi;
-integre i(r) dr de 0 a +infinito dr;
-integre aceleracao(v) dv de -infinito a 0;
+a = integre f(x) dx;
+b = integre g(x) dx de 1 a 4;
+c = integre h(x) dx de 0 a pi;
+d = integre i(r) dr de 0 a +infinito dr;
+e = integre aceleracao(v) dv de -infinito a 0;
 
 --- Programas
 
@@ -41,26 +41,26 @@ integre aceleracao(v) dv de -infinito a 0;
 f_l(x) = 2*x^(-1/2) + 2;
 A = 3;
 B = 12;
-Vn = integre((1 + (f_l(x))^2)^(1/2)) de A a B dx;
-return L;
+Vn = integre((1 + (f_l(x))^2)^(1/2))dx de A a B;
+return Vn;
 
 --- Cálculo de área. Figura 2
 {R|R}
 f(x) = (1/4)*x^3 + 4;
-Area = integre f(x) de 1 a 10 dx;
+Area = integre f(x) dx de 1 a 10 ;
 print(Area);
 
 --- Sólidos de revolução. Figura 4
 {R|R}
-f(x) = cos(x) + 1
-A = -2
-B = 8
-Vn = pi*(integre f(x) de A a B dx);
+f(x) = cos(x) + 1;
+A = -2;
+B = 8;
+Vn = pi*(integre f(x)dx de A a B);
 print('Volume: ');
 print(Vn);
 
 --- Momentos de Inércia de Sólidos
-r = 7.5
+r = 7.5;
 Iz = integre r2 de 0 a V dV;
 print('Volume do sólido: ');
 print(Iz);
@@ -71,6 +71,7 @@ x(t) = sen(w*t);
 F(w)​ = integre f(t)*​e^(-(i*w*t)) dt;
 return F(w);
 
+--- Outros exemplos
 {N[10..100]|N}
 mat(x) = x​;
 
@@ -91,16 +92,9 @@ c =​ 0.5;
 {Q|Q}
 aceleracao(v) = v^2 -(4*a*c);
 
---- Integrais
-integre f(x)dx;
-integre g(x) de 1 a 4 dx;
-integre h(x) de 0 a pi dx;
-integre i(r) de 0 a +infinito dr;
-aceleracao(v) de -infinito a 0 dv;
-
 --- Programa
 {R|R}
-f(x)=x^2+2x+1;
+f(x) = x^2+2x+1;
 k1 =​ 100;
 k2 = 20000;
 v1 = integre f(x) de 0 a e;
