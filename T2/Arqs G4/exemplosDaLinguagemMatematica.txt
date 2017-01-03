@@ -6,13 +6,13 @@ print(4 / 2);
 
 --- funcoes matematicas (polinomiais)
 --- verificar dominio -> semantico
-{N[10..100]|N}
+{N[10<->100]|N}
 mat(x) = x;
 
-{R[-10..10]|R}
+{R[-10<->10]|R}
 f(x) = x^5/2;
 
-{Z[10..+infinito]|Z}
+{Z[10<->+infinito]|Z}
 g(x) = x^2 -2*x + 3;
 
 {N|N}
@@ -72,13 +72,13 @@ F(w)​ = integre f(t)*​e^(-(i*w*t)) dt;
 return F(w);
 
 --- Outros exemplos
-{N[10..100]|N}
+{N[10<->100]|N}
 mat(x) = x​;
 
-{R [-10..10]|R}
+{R [-10<->10]|R}
 f(x)=x^5/2;
 
-{Z[10..+infinito]|Z}
+{Z[10<->+infinito]|Z}
 g(x) = x^2 -2*x +3;
 
 {N|N}

@@ -11,16 +11,15 @@ bloco
 declaracao
  : atribuicao ';'
  | funcao     ';'
- | 'print' '(' expressao | String ')' ';'
+ | print      ';'
  ;
-
+print
+ : 'print' (expressao | String)
+ ;
 atribuicao
- : Identificador  '=' expressao
+ : identificador  '=' expressao
  ;
 
-/* Verificar:
-		- recursao a esquerda aqui
-		- Non-LL(*) Decision Error */
 expressao
  : '-' expressao
  | integral
@@ -32,79 +31,85 @@ expressao
  | '(' expressao ')'
  | valor
  | identificadorF
- | Incognita
- | Identificador
+ | identificador
  ;
 
 integral
- : 'integre' expressao 'd' Incognita (intervaloInt)?
+ : 'integre' expressao fatorInt identificador (intervaloInt)?
  ;
+
+fatorInt
+: 'd'
+;
 
 intervaloInt
- : 'de' (valor | Identificador) 'a' (valor | Identificador)
+ : 'de' (valor | identificador) 'a' (valor | identificador)
  ;
 
-// a relacao e sempre necessaria ?
 funcao
  : (relacao)? seno
  | (relacao)? cosseno
  | (relacao)? identificadorF '=' expressao
  ;
 
+identificadorF
+ : identificador '('identificador')'
+ ;
+
 relacao
  : '{' dominio'|'contradominio'}'
  ;
 
-identificadorF
- : Identificador '('Incognita')'
- ;
-
-
-seno
- : 'sen''('Incognita | expressao')'
- ;
-
-cosseno
- : 'cos''('Incognita | expressao')'
- ;
-
 dominio
- : 'N' | 'Z' | 'Q' | 'R' (intervalo)?
+ : ('N' | 'Z' | 'Q' | 'R') (intervalo)?
  ;
 
 contradominio
- : 'N' | 'Z' | 'Q' | 'R' (intervalo)?
+ : ('N' | 'Z' | 'Q' | 'R') (intervalo)?
  ;
 
 intervalo
- : '['valor '..' valor']'
+ : '['valor '<->' valor']'
  ;
-valor
- : Numero
- | Constante
+seno
+ : 'sen''('identificador | expressao')'
  ;
 
-Constante
+cosseno
+ : 'cos''('identificador | expressao')'
+ ;
+
+valor
+ : Numero
+ | constante
+ ;
+
+constante
  : '+infinito'
  | '-infinito'
  | 'pi'
  | 'e'   //euler
  ;
 
+identificador
+ : ID
+ ;
+
+ID
+ : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*
+ ;
 Numero
  : Int ('.' Digito*)?
+ | '-'Int ('.' Digito*)?
  ;
 
-Incognita
- :[a-zA-Z_]
- ;
+Letra
+  : 'a'..'z'
+  | 'A'..'Z'
+  ;
 
-Identificador
- : [a-zA-Z_] [a-zA-Z_0-9]*
- ;
-
- String
- : '"' ~('\r' | '\n' | '"')* '"'
+String
+ : '"' ~('\r'|'\n')*? '"'
  ;
 
 Comentario
@@ -121,5 +126,5 @@ fragment Int
  ;
 
 fragment Digito
- : [0-9]
+ : '0'..'9'
  ;

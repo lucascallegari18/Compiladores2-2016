@@ -1,11 +1,82 @@
 grammar matematica;
 
 programa
- : ( intervalo |constante |Numero | Identificador | Incognita |String | Comentario)* EOF
+ : bloco EOF
+ ;
+
+bloco
+ : (declaracao)* ('return' expressao ';')?
+ ;
+
+declaracao
+ : atribuicao ';'
+ | funcao     ';'
+ | print      ';'
+ ;
+print
+ : 'print' (expressao | String)
+ ;
+atribuicao
+ : identificador  '=' expressao
+ ;
+
+expressao
+ : '-' expressao
+ | integral
+ | expressao '^' expressao
+ | expressao '*' expressao
+ | expressao '/' expressao
+ | expressao '+' expressao
+ | expressao '-' expressao
+ | '(' expressao ')'
+ | valor
+ | identificadorF
+ | identificador
+ ;
+
+integral
+ : 'integre' expressao fatorInt identificador (intervaloInt)?
+ ;
+
+fatorInt
+: 'd'
+;
+
+intervaloInt
+ : 'de' (valor | identificador) 'a' (valor | identificador)
+ ;
+
+funcao
+ : (relacao)? seno
+ | (relacao)? cosseno
+ | (relacao)? identificadorF '=' expressao
+ ;
+
+identificadorF
+ : identificador '('identificador')'
+ ;
+
+relacao
+ : '{' dominio'|'contradominio'}'
+ ;
+
+dominio
+ : ('N' | 'Z' | 'Q' | 'R') (intervalo)?
+ ;
+
+contradominio
+ : ('N' | 'Z' | 'Q' | 'R') (intervalo)?
  ;
 
 intervalo
  : '['valor '<->' valor']'
+ ;
+seno
+ : 'sen''('identificador | expressao')'
+ ;
+
+cosseno
+ : 'cos''('identificador | expressao')'
  ;
 
 valor
@@ -20,20 +91,25 @@ constante
  | 'e'   //euler
  ;
 
+identificador
+ : ID
+ ;
+
+ID
+ : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*
+ ;
 Numero
  : Int ('.' Digito*)?
+ | '-'Int ('.' Digito*)?
  ;
 
-Incognita
- :[a-zA-Z_]
- ;
+Letra
+  : 'a'..'z'
+  | 'A'..'Z'
+  ;
 
-Identificador
- : [a-zA-Z_] [a-zA-Z_0-9]*
- ;
-
- String
- : '"' ~('\r' | '\n' | '"')* '"'
+String
+ : '"' ~('\r'|'\n')*? '"'
  ;
 
 Comentario
@@ -50,5 +126,5 @@ fragment Int
  ;
 
 fragment Digito
- : [0-9]
+ : '0'..'9'
  ;
